@@ -28,6 +28,6 @@ fun memoview(){
 @Composable
 fun PreviewMemoview(){
     StickyMemoryTheme {
-        allview()
+        memoview()
     }
 }

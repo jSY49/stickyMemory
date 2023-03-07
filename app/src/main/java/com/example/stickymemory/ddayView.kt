@@ -28,6 +28,6 @@ fun ddayview(){
 @Composable
 fun PreviewDdayview(){
     StickyMemoryTheme {
-        allview()
+        ddayview()
     }
 }
