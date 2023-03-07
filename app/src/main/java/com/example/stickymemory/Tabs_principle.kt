@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun Tabs_principle() {
     val tabs = listOf(
-        tabs_items.item_all,
         tabs_items.item_todo,
         tabs_items.item_dday,
         tabs_items.item_memo
