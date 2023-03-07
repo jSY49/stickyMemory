@@ -66,4 +66,6 @@ dependencies {
     implementation "com.google.accompanist:accompanist-pager-indicators:0.20.0"
     //status
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+    //material
+    implementation "androidx.compose.material3:material3:$m3_version"
 }
