@@ -68,4 +68,6 @@ dependencies {
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
     //material
     implementation "androidx.compose.material3:material3:$m3_version"
+    //wheel date picker
+    implementation 'com.github.commandiron:WheelPickerCompose:1.0.2'
 }
