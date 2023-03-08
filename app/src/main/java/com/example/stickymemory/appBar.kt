@@ -35,6 +35,21 @@ fun select_cate() {
     var selected by remember { mutableStateOf(0) }
     val contextForToast = LocalContext.current.applicationContext
 
+    var showTodoDialog by  remember { mutableStateOf(false) }
+    var showDdayDialog by remember { mutableStateOf(false) }
+    var showMemoDialog by  remember { mutableStateOf(false) }
+
+    if(showTodoDialog){
+        todo_ui(value = "", setShowDialog = {showTodoDialog = it})
+    }
+    if(showDdayDialog){
+        dday_ui(value = "", setShowDialog = {showDdayDialog = it})
+    }
+    if(showMemoDialog){
+        memo_ui(value = "", setShowDialog = {showMemoDialog = it})
+    }
+
+
     Box(
         contentAlignment = Alignment.Center
     ) {
@@ -56,23 +71,21 @@ fun select_cate() {
             },
             offset= DpOffset(10.dp,0.dp)
         ) {
-            // adding items
             listItems.forEachIndexed { itemIndex, itemValue ->
                 DropdownMenuItem(
                     onClick = {
                         selected=itemIndex
-                        Toast.makeText(contextForToast, itemValue, Toast.LENGTH_SHORT).show()
+                        when (selected) {
+                        0 -> {showTodoDialog=true}
+                        1 -> {showDdayDialog=true}
+                        2 -> {showMemoDialog=true}
+                            else -> {}
+                        }
                         expanded = false
+
                     }
                 ) {
                     Text(text = itemValue)
-                    when (selected) {
-//                        0 -> {todo_ui( value = "",setShowDialog = {})}
-//                        1 -> {dday_ui( value = "",setShowDialog = {})}
-//                        2 -> {memo_ui( value = "",setShowDialog = {})}
-                        else -> {}
-                    }
-
                 }
             }
         }
