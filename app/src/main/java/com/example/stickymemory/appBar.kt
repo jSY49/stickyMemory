@@ -1,6 +1,5 @@
 package com.example.stickymemory
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -10,7 +9,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
@@ -33,7 +31,6 @@ fun select_cate() {
     val listItems = arrayOf("To-do", "D-day", "Memo")
     var expanded by remember { mutableStateOf(false) }
     var selected by remember { mutableStateOf(0) }
-    val contextForToast = LocalContext.current.applicationContext
 
     var showTodoDialog by  remember { mutableStateOf(false) }
     var showDdayDialog by remember { mutableStateOf(false) }
