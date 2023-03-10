@@ -1,9 +1,7 @@
 package com.example.stickymemory
 
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -30,10 +28,11 @@ fun MemoItem(item: Memo, onDelete: () -> Unit) {
                 .padding(16.dp)
         ) {
             Icon(
-                painter = painterResource(R.drawable.baseline_arrow_right_24),
-                contentDescription = "Content description for visually impaired"
+                painter = painterResource(R.drawable.baseline_circle_24),
+                contentDescription = "Content description for visually impaired",
+                modifier = Modifier.width(5.dp).height(5.dp).align(Alignment.CenterVertically)
             )
-
+            Spacer(modifier = Modifier.width(10.dp))
             Text(
                 text = item.memoThing,
                 modifier = Modifier
