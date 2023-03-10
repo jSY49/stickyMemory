@@ -18,9 +18,7 @@ fun ddayview(){
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
-        Text("dday",
-            style = MaterialTheme.typography.h1
-        )
+
     }
 }
 
