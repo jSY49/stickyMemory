@@ -1,5 +1,6 @@
 package com.example.stickymemory
 
+import android.app.Application
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -19,10 +20,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.stickymemory.dataclasses.Memo
 import com.example.stickymemory.ui.theme.StickyMemoryTheme
+import com.example.stickymemory.viewModel.MemoViewModel
 
 @Composable
-fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit) {
+fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Application, vm : MemoViewModel = viewModel(factory = MemoViewModel.Factory(application))) {
+    val txtFieldError = remember { mutableStateOf("") }
+    val txtField = remember { mutableStateOf("") }
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -49,8 +55,7 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit) {
                     }
 
                     Spacer(modifier = Modifier.height(20.dp))
-                    val txtFieldError = remember { mutableStateOf("") }
-                    val txtField = remember { mutableStateOf(value) }
+
                     TextField(
                         modifier = Modifier
                             .height(100.dp)
@@ -89,7 +94,13 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit) {
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                setShowDialog(false)
+                                if(txtField.value.isBlank()){
+                                    txtFieldError.value = "Field can not be empty"
+                                }else{
+                                    val mem=txtField.value
+                                    vm.addMemo(Memo(mem))
+                                    setShowDialog(false)
+                                }
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -111,7 +122,7 @@ fun MemoPreview() {
     StickyMemoryTheme {
         var showMemoDialog by remember { mutableStateOf(true) }
         if (showMemoDialog) {
-            memo_ui(value = "", setShowDialog = { showMemoDialog = it })
+            //memo_ui(value = "", setShowDialog = { showMemoDialog = it })
         }
 
     }
