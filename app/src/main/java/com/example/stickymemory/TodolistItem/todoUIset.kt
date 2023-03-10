@@ -1,7 +1,6 @@
 package com.example.stickymemory
 
 import android.app.Application
-import android.nfc.Tag
 import android.util.Log
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
