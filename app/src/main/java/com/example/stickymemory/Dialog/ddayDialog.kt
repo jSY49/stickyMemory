@@ -1,5 +1,8 @@
 package com.example.stickymemory
 
+import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -20,11 +23,22 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.commandiron.wheel_picker_compose.WheelDatePicker
+import com.example.stickymemory.dataclasses.Dday
 import com.example.stickymemory.ui.theme.StickyMemoryTheme
+import com.example.stickymemory.viewModel.DdayViewModel
+import java.time.Month
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun dday_ui(value: String, setShowDialog: (Boolean) -> Unit) {
+fun dday_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Application, vm : DdayViewModel = viewModel(factory = DdayViewModel.Factory(application))) {
+
+    val txtFieldError = remember { mutableStateOf("") }
+    val txtField = remember { mutableStateOf("") }
+    var day : Int? = 1
+    var month :Int? =1
+    var year: Int?=2023
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
@@ -63,13 +77,16 @@ fun dday_ui(value: String, setShowDialog: (Boolean) -> Unit) {
                             selectorShape = RoundedCornerShape(0.dp),
                             selectorColor = Color(0xFFFF8A65).copy(alpha = 0.2f),
                             selectorBorder = BorderStroke(2.dp, Color(0xFFE57373))
-                        ) { snappedDate -> }
+                        ) { snappedDate ->
+                            day= snappedDate?.dayOfMonth
+                            month=snappedDate?.monthValue
+                            year=snappedDate?.year
+                        }
                     }
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    val txtFieldError = remember { mutableStateOf("") }
-                    val txtField = remember { mutableStateOf(value) }
+
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -106,7 +123,14 @@ fun dday_ui(value: String, setShowDialog: (Boolean) -> Unit) {
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                setShowDialog(false)
+                                if(txtField.value.isBlank()){
+                                    txtFieldError.value = "Field can not be empty"
+                                }else{
+                                    val date="${year}-${month}-${day}"
+                                    val mem=txtField.value
+                                    vm.addDday(Dday(date,mem))
+                                    setShowDialog(false)
+                                }
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -127,7 +151,7 @@ fun DdayPreview() {
     StickyMemoryTheme {
         var showDdayDialog by remember { mutableStateOf(true) }
         if (showDdayDialog) {
-            dday_ui(value = "", setShowDialog = { showDdayDialog = it })
+            //dday_ui(value = "", setShowDialog = { showDdayDialog = it })
         }
 
     }

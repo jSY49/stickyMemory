@@ -36,7 +36,7 @@ fun TodoItem(item: Todo, onChange: (todo: Todo) -> Unit, onDelete: () -> Unit) {
                     text = item.date.toString(),
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
-                        .weight(0.8f)
+                        .weight(0.5f)
                         .padding(end = 8.dp)
                 )
                 Text(

@@ -38,7 +38,7 @@ fun todo_ui(setShowDialog: (Boolean) -> Unit, application: Application,vm : todo
     val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf("") }
     var day : Int? = 1
-    var month : Month? = Month.JANUARY
+    var month : Int? =1
     var year: Int?=2023
 
 
@@ -84,7 +84,7 @@ fun todo_ui(setShowDialog: (Boolean) -> Unit, application: Application,vm : todo
                             selectorBorder = BorderStroke(2.dp, Color(0xFFE57373))
                         ) { snappedDate ->
                             day= snappedDate?.dayOfMonth
-                            month=snappedDate?.month
+                            month=snappedDate?.monthValue
                             year=snappedDate?.year
                         }
                     }
@@ -133,7 +133,7 @@ fun todo_ui(setShowDialog: (Boolean) -> Unit, application: Application,vm : todo
                                 if(txtField.value.isBlank()){
                                     txtFieldError.value = "Field can not be empty"
                                 }else{
-                                     val date="${day}/${month}/${year}"
+                                     val date="${year}-${month}-${day}"
                                      val mem=txtField.value
                                     vm.addTodo(Todo(date,mem,false))
                                     setShowDialog(false)

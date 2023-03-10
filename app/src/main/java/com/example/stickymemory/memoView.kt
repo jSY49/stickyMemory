@@ -18,9 +18,7 @@ fun memoview(){
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
-        Text("memo",
-            style = MaterialTheme.typography.h1
-        )
+
     }
 }
 
