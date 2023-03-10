@@ -69,9 +69,9 @@ fun Tabs_content(tabs: List<tabs_items>, pagerState: PagerState,application:Appl
         if(page==0){
             todoUISet(application = application)
         }else if(page==1){
-
-        }else{
-
+            DdayUISet(application = application)
+        }else if(page==2){
+            MemoUISet(application = application)
         }
         tabs[page].screen()
     }
