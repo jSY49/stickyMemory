@@ -3,8 +3,6 @@ package com.example.stickymemory
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,15 +16,12 @@ fun todoview(){
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
-        Text("Todo",
-            style = MaterialTheme.typography.h1
-        )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewTodoview(){
+fun PreviewTodoview() {
     StickyMemoryTheme {
         todoview()
     }
