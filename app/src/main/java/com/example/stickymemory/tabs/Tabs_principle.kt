@@ -1,6 +1,7 @@
 package com.example.stickymemory
 
 
+import android.app.Application
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
@@ -10,21 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.stickymemory.tabs.tabs_items
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Tabs_principle() {
+fun Tabs_principle(application: Application) {
     val tabs = listOf(
         tabs_items.item_todo,
         tabs_items.item_dday,
         tabs_items.item_memo
     )
     val pagerState = rememberPagerState()
+
     Column {
         Tabs(tabs, pagerState)
-        Tabs_content(tabs, pagerState)
+        Tabs_content(tabs, pagerState,application)
     }
 }
 
@@ -58,11 +61,18 @@ fun Tabs(tabs: List<tabs_items>, pagerState: PagerState) {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun Tabs_content(tabs: List<tabs_items>, pagerState: PagerState) {
+fun Tabs_content(tabs: List<tabs_items>, pagerState: PagerState,application:Application) {
     HorizontalPager(
         state = pagerState,
         count = tabs.size
     ) { page ->
+        if(page==0){
+            todoUISet(application = application)
+        }else if(page==1){
+
+        }else{
+
+        }
         tabs[page].screen()
     }
 }

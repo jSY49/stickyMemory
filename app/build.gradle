@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -70,4 +71,22 @@ dependencies {
     implementation "androidx.compose.material3:material3:$m3_version"
     //wheel date picker
     implementation 'com.github.commandiron:WheelPickerCompose:1.0.2'
+    //Room
+    def room_version = "2.5.0"
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
+    // To use Kotlin Symbol Processing (KSP)
+    kapt "androidx.room:room-compiler:$room_version"
+    // optional - Paging 3 Integration
+    implementation "androidx.room:room-paging:$room_version"
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    def lifecycle_version = "2.3.0"
+    // ViewModel - 라이프 사이클
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData - 데이터의 변경 사항을 알 수 있음
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.0"
+
 }
