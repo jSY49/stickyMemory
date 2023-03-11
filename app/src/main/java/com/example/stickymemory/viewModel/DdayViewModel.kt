@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.stickymemory.Repository.DdayRepository
 import com.example.stickymemory.database.AppDatabase_dday
 import com.example.stickymemory.dataclasses.Dday
+import com.example.stickymemory.dataclasses.Todo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -29,7 +30,11 @@ class DdayViewModel(application: Application) : ViewModel() {
             repository.addDdayList(dday)
         }
     }
-
+    fun updateDday(dday : Dday){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateDday(dday)
+        }
+    }
     fun deleteDday(dday : Dday){
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteDday(dday)

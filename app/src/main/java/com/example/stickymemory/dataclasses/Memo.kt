@@ -7,6 +7,6 @@ import java.io.Serializable
 
 @Entity(tableName = "Memolist")
 data class Memo(
-    @ColumnInfo(name="MemoThing") val memoThing: String,
+    @ColumnInfo(name="MemoThing") var memoThing: String,
     @PrimaryKey(autoGenerate = true)var idx: Long = 0
 ): Serializable

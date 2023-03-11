@@ -10,7 +10,9 @@ class DdayRepository(private val ddayDao: ddayDao) {
     suspend fun addDdayList(dday: Dday){
         ddayDao.insertDday(dday)
     }
-
+    suspend fun updateDday(dday: Dday){
+        ddayDao.updateDday(dday)
+    }
     suspend fun deleteDday(dday: Dday){
         ddayDao.delete(dday)
     }

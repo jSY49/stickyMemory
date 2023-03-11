@@ -2,6 +2,7 @@ package com.example.stickymemory
 
 import android.app.Application
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -9,8 +10,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,45 +27,47 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.commandiron.wheel_picker_compose.WheelDatePicker
+import com.example.stickymemory.dataclasses.Dday
+import com.example.stickymemory.dataclasses.Memo
 import com.example.stickymemory.dataclasses.Todo
-import com.example.stickymemory.ui.theme.StickyMemoryTheme
+import com.example.stickymemory.datePicker.DatePicker
+import com.example.stickymemory.viewModel.DdayViewModel
+import com.example.stickymemory.viewModel.MemoViewModel
 import com.example.stickymemory.viewModel.todoViewModel
-import java.time.Month
-
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun todo_ui(
-    setShowDialog: (Boolean) -> Unit,
+fun editOrsendDialog_memo(
     application: Application,
-    vm: todoViewModel = viewModel(factory = todoViewModel.Factory(application))
+    item: Memo,
+    showEditDialog: Boolean,
+    setShowEditDialog: (Boolean) -> Unit,
+    vm: MemoViewModel = viewModel(factory = MemoViewModel.Factory(application)),
+    onConfirm: () -> Unit
 ) {
+    val TAG = object {}.javaClass.enclosingClass.name
 
     val txtFieldError = remember { mutableStateOf("") }
-    val txtField = remember { mutableStateOf("") }
-    var day : Int? = 1
-    var month : Int? =1
-    var year: Int?=2023
+    val txtField = remember { mutableStateOf(item.memoThing) }
 
-
-    Dialog(onDismissRequest = { setShowDialog(false) }) {
+    if (!showEditDialog) return
+    Dialog(onDismissRequest = { setShowEditDialog(false) }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = Color.White
         ) {
-            //Dialog name
             Box(
                 contentAlignment = Alignment.Center
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
+
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "My ToDo",
+                            text = "My Memo",
                             style = TextStyle(
                                 fontSize = 24.sp,
                                 fontFamily = FontFamily.Default,
@@ -71,40 +76,17 @@ fun todo_ui(
                         )
                     }
 
-                    //wheel date picker
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentSize(Alignment.Center)
-                    ) {
-                        WheelDatePicker(
-                            size = DpSize(200.dp, 100.dp),
-                            textStyle = MaterialTheme.typography.h6,
-                            textColor = Color.Black,
-                            infiniteLoopEnabled = true,
-                            selectorEnabled = true,
-                            selectorShape = RoundedCornerShape(0.dp),
-                            selectorColor = Color(0xFFFF8A65).copy(alpha = 0.2f),
-                            selectorBorder = BorderStroke(2.dp, Color(0xFFE57373))
-                        ) { snappedDate ->
-                            day= snappedDate?.dayOfMonth
-                            month=snappedDate?.monthValue
-                            year=snappedDate?.year
-                        }
-                    }
-
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    //To-do data
                     TextField(
                         modifier = Modifier
+                            .height(100.dp)
                             .fillMaxWidth()
                             .border(
                                 BorderStroke(
                                     width = 2.dp,
                                     color = colorResource(
-                                        id = if (txtFieldError.value.isEmpty()) R.color.moreOrange else R.color.lightOrange
-                                    )
+                                        id = if (txtFieldError.value.isEmpty()) R.color.moreOrange else R.color.lightOrange)
                                 ),
                                 shape = RoundedCornerShape(20)
                             ),
@@ -115,7 +97,7 @@ fun todo_ui(
                         ),
                         leadingIcon = {
                             Icon(
-                                imageVector = Icons.Filled.Check,
+                                imageVector = Icons.Filled.ThumbUp,
                                 contentDescription = "",
                                 tint = colorResource(R.color.moreOrange),
                                 modifier = Modifier
@@ -123,13 +105,13 @@ fun todo_ui(
                                     .height(20.dp)
                             )
                         },
-                        placeholder = { Text(text = "what is your Todo?") },
+                        placeholder = { Text(text = "what is your Memo?") },
                         value = txtField.value,
                         onValueChange = {
-                            txtField.value = it.take(50)
+                            txtField.value = it.take(1000)
                         })
 
-                    //Done
+
                     Spacer(modifier = Modifier.height(20.dp))
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
@@ -137,12 +119,10 @@ fun todo_ui(
                                 if(txtField.value.isBlank()){
                                     txtFieldError.value = "Field can not be empty"
                                 }else{
-                                     val date="${year}-${month}-${day}"
-                                     val mem=txtField.value
-                                    vm.addTodo(Todo(date,mem,false))
-                                    setShowDialog(false)
+                                    item.memoThing=txtField.value
+                                    vm.updateMemo(item)
+                                    setShowEditDialog(false)
                                 }
-
                             },
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
@@ -158,16 +138,3 @@ fun todo_ui(
     }
 }
 
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Preview(showBackground = true)
-@Composable
-fun TodoPreview() {
-    StickyMemoryTheme {
-        var showTodoDialog by remember { mutableStateOf(true) }
-        if (showTodoDialog) {
-            //todo_ui(setShowDialog = { showTodoDialog = it }, application = application)
-        }
-
-    }
-}

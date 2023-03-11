@@ -29,6 +29,11 @@ class MemoViewModel(application: Application) : ViewModel() {
             repository.addMemoList(memo)
         }
     }
+    fun updateMemo(memo :Memo){
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateMemo(memo)
+        }
+    }
     fun deleteMemo(memo : Memo){
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteMemo(memo)

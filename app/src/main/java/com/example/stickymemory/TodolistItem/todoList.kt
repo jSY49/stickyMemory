@@ -13,16 +13,20 @@ import com.example.stickymemory.dataclasses.Todo
 fun TodoList(
     todos: List<Todo>,
     onChange: (i: Int, todo: Todo) -> Unit,
-    onDelete: (i: Int) -> Unit
+    onDelete: (i: Int) -> Unit,
+    onEdit: (i:Int) -> Unit
 ) {
-    LazyColumn( modifier = Modifier
-        .fillMaxWidth()
-        .padding(vertical = 8.dp)) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
         itemsIndexed(items = todos) { i, todo ->
             TodoItem(
                 item = todo,
                 onChange = { onChange(i, it) },
-                onDelete = { onDelete(i) }
+                onDelete = { onDelete(i) },
+                onEdit = { onEdit(i) }
             )
         }
     }

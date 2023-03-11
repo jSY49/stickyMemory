@@ -2,6 +2,7 @@ package com.example.stickymemory
 
 import android.app.Application
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
@@ -9,8 +10,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,29 +26,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.commandiron.wheel_picker_compose.WheelDatePicker
 import com.example.stickymemory.dataclasses.Todo
-import com.example.stickymemory.ui.theme.StickyMemoryTheme
+import com.example.stickymemory.datePicker.DatePicker
 import com.example.stickymemory.viewModel.todoViewModel
-import java.time.Month
-
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun todo_ui(
-    setShowDialog: (Boolean) -> Unit,
+fun editOrsendDialog(
     application: Application,
-    vm: todoViewModel = viewModel(factory = todoViewModel.Factory(application))
+    item: Todo,
+    showEditDialog: Boolean,
+    setShowEditDialog: (Boolean) -> Unit,
+    vm: todoViewModel = viewModel(factory = todoViewModel.Factory(application)),
+    onConfirm: () -> Unit
 ) {
+    val TAG = object {}.javaClass.enclosingClass.name
 
     val txtFieldError = remember { mutableStateOf("") }
-    val txtField = remember { mutableStateOf("") }
-    var day : Int? = 1
-    var month : Int? =1
-    var year: Int?=2023
+    val txtField = remember { mutableStateOf(item.todoThing) }
+    val dates= item.date!!.split("-")
+    Log.d(TAG,dates.size.toString())
+    var day : Int? = dates[2].toInt()
+    var month : Int? =dates[1].toInt()
+    var year: Int? =dates[0].toInt()
 
-
-    Dialog(onDismissRequest = { setShowDialog(false) }) {
+    if (!showEditDialog) return
+    Dialog(onDismissRequest = { setShowEditDialog(false) }) {
         Surface(
             shape = RoundedCornerShape(16.dp),
             color = Color.White
@@ -71,14 +76,17 @@ fun todo_ui(
                         )
                     }
 
-                    //wheel date picker
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .wrapContentSize(Alignment.Center)
                     ) {
-                        WheelDatePicker(
+                        DatePicker(
                             size = DpSize(200.dp, 100.dp),
+                            start =true,
+                            startDay = day!!,
+                            startMonth = month!!,
+                            startYear= year!!,
                             textStyle = MaterialTheme.typography.h6,
                             textColor = Color.Black,
                             infiniteLoopEnabled = true,
@@ -91,6 +99,7 @@ fun todo_ui(
                             month=snappedDate?.monthValue
                             year=snappedDate?.year
                         }
+
                     }
 
                     Spacer(modifier = Modifier.height(20.dp))
@@ -137,10 +146,10 @@ fun todo_ui(
                                 if(txtField.value.isBlank()){
                                     txtFieldError.value = "Field can not be empty"
                                 }else{
-                                     val date="${year}-${month}-${day}"
-                                     val mem=txtField.value
-                                    vm.addTodo(Todo(date,mem,false))
-                                    setShowDialog(false)
+                                    item.date="${year}-${month}-${day}"
+                                    item.todoThing=txtField.value
+                                    vm.updatetodo(item)
+                                    setShowEditDialog(false)
                                 }
 
                             },
@@ -158,16 +167,9 @@ fun todo_ui(
     }
 }
 
-
-@RequiresApi(Build.VERSION_CODES.O)
 @Preview(showBackground = true)
 @Composable
-fun TodoPreview() {
-    StickyMemoryTheme {
-        var showTodoDialog by remember { mutableStateOf(true) }
-        if (showTodoDialog) {
-            //todo_ui(setShowDialog = { showTodoDialog = it }, application = application)
-        }
-
+fun dpreveiw() {
+    val (showEditDialog, setShowEditDialog) = rememberSaveable { mutableStateOf(true) }
+    //editOrsendDialog(showEditDialog, setShowEditDialog){
     }
-}

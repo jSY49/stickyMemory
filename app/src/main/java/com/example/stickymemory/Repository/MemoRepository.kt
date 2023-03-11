@@ -11,6 +11,9 @@ class MemoRepository(private val memoDao: MemoDao) {
     suspend fun addMemoList(Memo: Memo){
         memoDao.insertMemo(Memo)
     }
+    suspend fun updateMemo(memo: Memo){
+        memoDao.updateMemo(memo)
+    }
     suspend fun deleteMemo(memo: Memo){
         memoDao.delete(memo)
     }

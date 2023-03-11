@@ -12,7 +12,8 @@ import com.example.stickymemory.dataclasses.Dday
 @Composable
 fun DdayList(
     ddays: List<Dday>,
-    onDelete: (i: Int) -> Unit
+    onDelete: (i: Int) -> Unit,
+    onEdit: (i:Int) -> Unit
 ) {
     LazyColumn( modifier = Modifier
         .fillMaxWidth()
@@ -20,7 +21,8 @@ fun DdayList(
         itemsIndexed(items = ddays) { i, dday ->
             DdayItem(
                 item = dday,
-                onDelete = { onDelete(i) }
+                onDelete = { onDelete(i) },
+                onEdit = { onEdit(i) }
             )
         }
     }

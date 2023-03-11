@@ -1,10 +1,7 @@
 package com.example.stickymemory.Dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.stickymemory.dataclasses.Dday
 import com.example.stickymemory.dataclasses.Todo
 
@@ -16,6 +13,9 @@ interface ddayDao {
 
     @Insert
     fun insertDday(vararg dday: Dday)
+
+    @Update
+    fun updateDday(dday: Dday)
 
     @Delete
     fun delete(dday: Dday)

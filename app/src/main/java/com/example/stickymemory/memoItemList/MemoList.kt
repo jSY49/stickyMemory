@@ -12,7 +12,8 @@ import com.example.stickymemory.dataclasses.Memo
 @Composable
 fun MemoList(
     memos: List<Memo>,
-    onDelete: (i: Int) -> Unit
+    onDelete: (i: Int) -> Unit,
+    onEdit: (i:Int) -> Unit
 ) {
     LazyColumn( modifier = Modifier
         .fillMaxWidth()
@@ -20,7 +21,8 @@ fun MemoList(
         itemsIndexed(items = memos) { i, memo ->
             MemoItem(
                 item = memo,
-                onDelete = { onDelete(i) }
+                onDelete = { onDelete(i) },
+                onEdit = { onEdit(i) }
             )
         }
     }

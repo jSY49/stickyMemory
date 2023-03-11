@@ -15,13 +15,13 @@ import com.example.stickymemory.dataclasses.Memo
 
 
 @Composable
-fun MemoItem(item: Memo, onDelete: () -> Unit) {
+fun MemoItem(item: Memo, onDelete: () -> Unit, onEdit: () -> Unit) {
 
     Card(modifier = Modifier
         .padding(horizontal = 16.dp, vertical = 8.dp)
         .fillMaxWidth()
         .pointerInput(Unit) {
-            detectTapGestures(onLongPress = { onDelete() })
+            detectTapGestures(onLongPress = { onDelete() }, onTap = {onEdit()})
         }
     ) {
         Row(

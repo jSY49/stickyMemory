@@ -14,17 +14,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.stickymemory.dataclasses.Todo
+import com.example.stickymemory.ui.theme.StickyMemoryTheme
 
 @Composable
-fun TodoItem(item: Todo, onChange: (todo: Todo) -> Unit, onDelete: () -> Unit) {
+fun TodoItem(item: Todo, onChange: (todo: Todo) -> Unit, onDelete: () -> Unit, onEdit: () -> Unit) {
 
     Card(modifier = Modifier
         .padding(horizontal = 16.dp, vertical = 8.dp)
         .fillMaxWidth()
         .pointerInput(Unit) {
-            detectTapGestures(onLongPress = { onDelete() })
+            detectTapGestures(onLongPress = { onDelete() }, onTap = { onEdit() })
         }
     ) {
         Row(
@@ -70,7 +72,7 @@ fun TodoItem(item: Todo, onChange: (todo: Todo) -> Unit, onDelete: () -> Unit) {
                     } else {
                         TextDecoration.None
                     },
-                    color=
+                    color =
                     if (item.check == true) {
                         Color.Gray
                     } else {

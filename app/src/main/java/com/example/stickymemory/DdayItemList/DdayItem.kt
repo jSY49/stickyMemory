@@ -20,13 +20,13 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Composable
-fun DdayItem(item: Dday, onDelete: () -> Unit) {
+fun DdayItem(item: Dday, onDelete: () -> Unit, onEdit: () -> Unit) {
 
     Card(modifier = Modifier
         .padding(horizontal = 16.dp, vertical = 8.dp)
         .fillMaxWidth()
         .pointerInput(Unit) {
-            detectTapGestures(onLongPress = { onDelete() })
+            detectTapGestures(onLongPress = { onDelete() }, onTap = {onEdit()})
         }
     ) {
         Row(
@@ -87,13 +87,3 @@ fun calDate(date: String?): String {
 
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun ddayViewPreview() {
-    StickyMemoryTheme {
-        DdayItem(item = Dday("2023-03-10", "today")) {}
-        //DdayItem(item = Dday("2023-02-10", "before")) {}
-
-    }
-}
