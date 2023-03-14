@@ -2,6 +2,8 @@ package com.example.stickymemory
 
 
 import android.app.Application
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
@@ -15,6 +17,7 @@ import com.example.stickymemory.tabs.tabs_items
 import com.google.accompanist.pager.*
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Tabs_principle(application: Application) {
@@ -59,6 +62,7 @@ fun Tabs(tabs: List<tabs_items>, pagerState: PagerState) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Tabs_content(tabs: List<tabs_items>, pagerState: PagerState,application:Application) {

@@ -12,10 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.stickymemory.dataclasses.Dday
-import com.example.stickymemory.ui.theme.StickyMemoryTheme
 import java.text.SimpleDateFormat
 import java.util.*
 
