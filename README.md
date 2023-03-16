@@ -13,3 +13,16 @@
   <img src="https://img.shields.io/badge/Kotlin-7F52FF?style=plastic-square&logo=Kotlin&logoColor=white"/>
 </div>
 <br/>
+
+
+##### 현재 작동 모습 
+<table border="1">
+<th>[TODO]_추가/수정/삭제</th>
+<th>[D-DAY]_추가/수정/삭제</th>
+<th>[MEMO]_추가/수정/삭제</th>
+	<tr><!-- 첫번째 줄 시작 -->
+	    <td><img width="100%" src="https://user-images.githubusercontent.com/96411866/224981902-b1d96be5-fd93-4cfc-9d32-3e78474e6d23.gif"/></td>
+	    <td><img width="100%" src="https://user-images.githubusercontent.com/96411866/224981889-902c9afc-d7a7-476a-a1f4-7fca8b0a5035.gif"/></td>
+      <td><img width="100%" src="https://user-images.githubusercontent.com/96411866/224982044-020254c1-9509-4f88-a810-d24f009a569f.gif"/></td>
+	</tr><!-- 첫번째 줄 끝 -->
+</table>
