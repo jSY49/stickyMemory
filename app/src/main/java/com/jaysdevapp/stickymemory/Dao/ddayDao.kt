@@ -7,7 +7,7 @@ import com.jaysdevapp.stickymemory.dataclasses.Dday
 @Dao
 interface ddayDao {
 
-    @Query("SELECT * FROM ddaylist")
+    @Query("SELECT * FROM ddaylist ORDER BY date ASC")
     fun getAll(): LiveData<List<Dday>>
 
     @Insert

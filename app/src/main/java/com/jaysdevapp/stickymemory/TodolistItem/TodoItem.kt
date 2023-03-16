@@ -29,16 +29,16 @@ fun TodoItem(item: Todo, onChange: (todo: Todo) -> Unit, onDelete: () -> Unit, o
     ) {
         Row(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(15.dp)
         ) {
             if (item.check == false) {
-                Text(
+                /*Text(
                     text = item.date.toString(),
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .weight(0.5f)
                         .padding(end = 8.dp)
-                )
+                )*/
                 Text(
                     text = item.todoThing,
                     modifier = Modifier
@@ -55,13 +55,13 @@ fun TodoItem(item: Todo, onChange: (todo: Todo) -> Unit, onDelete: () -> Unit, o
                     })
             } else {
                 //투두 종료
-                Text(
+               /* Text(
                     text = item.date.toString(),
                     modifier = Modifier
                         .align(Alignment.CenterVertically)
                         .weight(0.8f)
                         .padding(end = 8.dp)
-                )
+                )*/
                 Text(
                     text = item.todoThing,
                     textDecoration =

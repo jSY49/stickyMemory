@@ -7,7 +7,7 @@ import com.jaysdevapp.stickymemory.dataclasses.Todo
 @Dao
 interface TodoDao {
 
-    @Query("SELECT * FROM todolist")
+    @Query("SELECT * FROM todolist ORDER BY date ASC")
     fun getAll(): LiveData<List<Todo>>
 
     @Insert

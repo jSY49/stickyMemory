@@ -4,9 +4,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jaysdevapp.stickymemory.dataclasses.Todo
 
 @Composable
@@ -16,12 +18,24 @@ fun TodoList(
     onDelete: (i: Int) -> Unit,
     onEdit: (i:Int) -> Unit
 ) {
+    var nowdate=""
+
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
         itemsIndexed(items = todos) { i, todo ->
+            if(i==0){
+                nowdate=todo.date.toString()
+                Text(text = nowdate, modifier = Modifier.padding(10.dp), fontSize = 15.sp)
+            }else{
+                if(nowdate!=todo.date){
+                    nowdate=todo.date.toString()
+                    Text(text = nowdate, modifier = Modifier.padding(10.dp), fontSize = 15.sp)
+                }
+            }
+
             TodoItem(
                 item = todo,
                 onChange = { onChange(i, it) },
