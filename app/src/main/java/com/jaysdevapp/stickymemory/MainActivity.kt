@@ -10,7 +10,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.jaysdevapp.stickymemory.ui.theme.StickyMemoryTheme
 import com.google.android.gms.ads.MobileAds
 
@@ -23,22 +26,35 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         MobileAds.initialize(this)
-
         setContent {
             StickyMemoryTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
-                ) {
-                    Scaffold(
-                        topBar = { TopBar(title = R.string.app_name, actions = actions(application)) },
-                        bottomBar = {ad()}
-                    ){
-                        Column(modifier = Modifier.padding(bottom = it.calculateBottomPadding())) {
-                            Tabs_principle(application)
-                        }
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "home") {
+                    composable("home") {
+                       home(navController)
                     }
+                    composable("info") {
+                        info(navController)
+                    }
+                }
 
 
+            }
+        }
+    }
+
+    @Composable
+    private fun home(navController: NavHostController) {
+        Surface(
+            modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
+        ) {
+            Scaffold(
+                //topBar = { TopBar(title = R.string.app_name, actions = actions(application)) },
+                topBar = {ToolbarWithMenu(navController,application)},
+                bottomBar = {ad()}
+            ){
+                Column(modifier = Modifier.padding(bottom = it.calculateBottomPadding())) {
+                    Tabs_principle(application)
                 }
             }
         }
@@ -47,46 +63,25 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onRestart() {
         super.onRestart()
+
+        MobileAds.initialize(this)
         setContent {
             StickyMemoryTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background
-                ) {
-                    Scaffold(
-                        topBar = { TopBar(title = R.string.app_name, actions = actions(application)) },
-                        bottomBar = {ad(modifier = Modifier.fillMaxWidth())}
-                    ){
-                        Column(modifier = Modifier.padding(bottom = it.calculateBottomPadding())) {
-                            Tabs_principle(application)
-                        }
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "home") {
+                    composable("home") {
+                        home(navController)
                     }
-
-
+                    composable("info") {
+                        info(navController)
+                    }
                 }
+
+
             }
         }
     }
 
-}
-
-@Composable
-fun Greeting() {
-    Surface {
-        Column {
-            //TopBar(title = R.string.app_name, actions = actions(application))
-            //Tabs_principle(application)
-            //ad()
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    StickyMemoryTheme {
-        Greeting()
-
-    }
 }
 
 
