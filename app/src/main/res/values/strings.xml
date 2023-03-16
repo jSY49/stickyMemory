@@ -6,9 +6,7 @@
     <string name="dialog_confirm">확인</string>
     <string name="dialog_cancel">취소</string>
 
-    <string name="which_dialog_text">어떤 작업을 진행 할까요?</string>
-    <string name="which_dialog_title">작업 선택하기</string>
-    <string name="dialog_edit">수정</string>
-    <string name="dialog_widget">위젯</string>
+
+    <string name="admob_sample_app_id">ca-app-pub-6700033491245688~3220524662</string>
 
 </resources>
