@@ -1,0 +1,33 @@
+package com.jaysdevapp.stickymemory
+
+import android.util.Log
+import java.text.SimpleDateFormat
+import java.util.*
+
+fun calDate(date: String?): String {
+    var dday_str = date!!.split("-").toMutableList()
+    val dateFormat = SimpleDateFormat("yyyyMMdd")
+    for (i in 1..2) {
+        if (dday_str[i].toInt() < 10) {
+            dday_str[i] = "0" + dday_str[i]
+        }
+    }
+    val endDate = dateFormat.parse(dday_str[0] + dday_str[1] + dday_str[2]).time
+    Log.d("cal date", endDate.toString())
+    val today = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+    }.time.time
+    val res = ((endDate - today) / (24 * 60 * 60 * 1000))
+    if (res==0L) {
+        return "D-Day"
+    } else if (res > 0) {
+        return "D-" + res.toString()
+    } else {
+        return "D+" + (res * (-1)).toString()
+    }
+
+}
+
