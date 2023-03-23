@@ -1,6 +1,7 @@
 package com.jaysdevapp.stickymemory
 
 import android.app.Application
+import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
@@ -31,11 +32,11 @@ import com.jaysdevapp.stickymemory.viewModel.DdayViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun editOrsendDialog_dday(
-    application: Application,
+    context: Context,
     item: Dday,
     showEditDialog: Boolean,
     setShowEditDialog: (Boolean) -> Unit,
-    vm: DdayViewModel = viewModel(factory = DdayViewModel.Factory(application)),
+    vm: DdayViewModel = viewModel(factory = DdayViewModel.Factory(context)),
     onConfirm: () -> Unit
 ) {
     val TAG = object {}.javaClass.enclosingClass.name

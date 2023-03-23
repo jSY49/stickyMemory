@@ -29,7 +29,7 @@ fun DdayItem(item: Dday, onDelete: () -> Unit, onEdit: () -> Unit) {
     ) {
         Row(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(25.dp)
         ) {
             Text(
                 text = calDate(item.date),
@@ -58,6 +58,7 @@ fun DdayItem(item: Dday, onDelete: () -> Unit, onEdit: () -> Unit) {
     }
 }
 
+/*
 fun calDate(date: String?): String {
     var dday_str = date!!.split("-").toMutableList()
     val dateFormat = SimpleDateFormat("yyyyMMdd")
@@ -85,3 +86,4 @@ fun calDate(date: String?): String {
 
 }
 
+*/
