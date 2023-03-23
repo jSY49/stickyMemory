@@ -39,6 +39,7 @@ fun editOrsendDialog_memo(
 
     val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf(item.memoThing) }
+    val txtTitleField = remember { mutableStateOf(item.memoTitle) }
 
     if (!showEditDialog) return
     Dialog(onDismissRequest = { setShowEditDialog(false) }) {
@@ -65,18 +66,17 @@ fun editOrsendDialog_memo(
                             )
                         )
                     }
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
+                    Spacer(modifier = Modifier.height(15.dp))
                     TextField(
                         modifier = Modifier
-                            .height(100.dp)
+                            .height(50.dp)
                             .fillMaxWidth()
                             .border(
                                 BorderStroke(
                                     width = 2.dp,
                                     color = colorResource(
-                                        id = if (txtFieldError.value.isEmpty()) R.color.moreOrange else R.color.lightOrange)
+                                        id = if (txtTitleField.value.isEmpty()) R.color.moreOrange else R.color.lightOrange
+                                    )
                                 ),
                                 shape = RoundedCornerShape(20)
                             ),
@@ -95,10 +95,35 @@ fun editOrsendDialog_memo(
                                     .height(20.dp)
                             )
                         },
+                        placeholder = { Text(text = "what is your Memo Title?") },
+                        value = txtTitleField.value,
+                        onValueChange = {
+                            txtTitleField.value = it.take(100)
+                        })
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    TextField(
+                        modifier = Modifier
+                            .height(500.dp)
+                            .fillMaxWidth()
+                            .border(
+                                BorderStroke(
+                                    width = 2.dp,
+                                    color = colorResource(
+                                        id = if (txtFieldError.value.isEmpty()) R.color.moreOrange else R.color.lightOrange
+                                    )
+                                ),
+                                shape = RoundedCornerShape(5)
+                            ),
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
+                        ),
                         placeholder = { Text(text = "what is your Memo?") },
                         value = txtField.value,
                         onValueChange = {
-                            txtField.value = it.take(1000)
+                            txtField.value = it.take(3000)
                         })
 
 
@@ -106,10 +131,11 @@ fun editOrsendDialog_memo(
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                if(txtField.value.isBlank()){
+                                if (txtField.value.isBlank() || txtTitleField.value.isBlank()) {
                                     txtFieldError.value = "Field can not be empty"
-                                }else{
-                                    item.memoThing=txtField.value
+                                } else {
+                                    item.memoTitle = txtTitleField.value
+                                    item.memoThing = txtField.value
                                     vm.updateMemo(item)
                                     setShowEditDialog(false)
                                 }

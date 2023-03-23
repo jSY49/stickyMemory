@@ -28,6 +28,7 @@ import com.jaysdevapp.stickymemory.viewModel.MemoViewModel
 @Composable
 fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Application, vm : MemoViewModel = viewModel(factory = MemoViewModel.Factory(application))) {
     val txtFieldError = remember { mutableStateOf("") }
+    val txtTitleField = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf("") }
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
@@ -54,11 +55,10 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(20.dp))
-
+                    Spacer(modifier = Modifier.height(15.dp))
                     TextField(
                         modifier = Modifier
-                            .height(100.dp)
+                            .height(50.dp)
                             .fillMaxWidth()
                             .border(
                                 BorderStroke(
@@ -83,10 +83,34 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                                     .height(20.dp)
                             )
                         },
+                        placeholder = { Text(text = "what is your Memo Title?") },
+                        value = txtTitleField.value,
+                        onValueChange = {
+                            txtTitleField.value = it.take(100)
+                        })
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    TextField(
+                        modifier = Modifier
+                            .height(500.dp)
+                            .fillMaxWidth()
+                            .border(
+                                BorderStroke(
+                                    width = 2.dp,
+                                    color = colorResource(
+                                        id = if (txtFieldError.value.isEmpty()) R.color.moreOrange else R.color.lightOrange)
+                                ),
+                                shape = RoundedCornerShape(5)
+                            ),
+                        colors = TextFieldDefaults.textFieldColors(
+                            backgroundColor = Color.Transparent,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
+                        ),
                         placeholder = { Text(text = "what is your Memo?") },
                         value = txtField.value,
                         onValueChange = {
-                            txtField.value = it.take(1000)
+                            txtField.value = it.take(3000)
                         })
 
 
@@ -97,8 +121,9 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                                 if(txtField.value.isBlank()){
                                     txtFieldError.value = "Field can not be empty"
                                 }else{
+                                    val memoTitle= txtTitleField.value
                                     val mem=txtField.value
-                                    vm.addMemo(Memo(mem))
+                                    vm.addMemo(Memo(memoTitle,mem))
                                     setShowDialog(false)
                                 }
                             },

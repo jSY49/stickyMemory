@@ -18,24 +18,25 @@ import com.jaysdevapp.stickymemory.dataclasses.Memo
 fun MemoItem(item: Memo, onDelete: () -> Unit, onEdit: () -> Unit) {
 
     Card(modifier = Modifier
-        .padding(horizontal = 16.dp, vertical = 8.dp)
+        .padding(horizontal = 16.dp, vertical = 20.dp)
         .fillMaxWidth()
         .pointerInput(Unit) {
-            detectTapGestures(onLongPress = { onDelete() }, onTap = {onEdit()})
+            detectTapGestures(onLongPress = { onDelete() }, onTap = { onEdit() })
         }
     ) {
-        Row(
-            modifier = Modifier
-                .padding(16.dp)
-        ) {
+        Row(modifier = Modifier
+            .padding(16.dp)) {
             Icon(
                 painter = painterResource(R.drawable.baseline_circle_24),
                 contentDescription = "Content description for visually impaired",
-                modifier = Modifier.width(5.dp).height(5.dp).align(Alignment.CenterVertically)
+                modifier = Modifier
+                    .width(5.dp)
+                    .height(5.dp)
+                    .align(Alignment.CenterVertically)
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = item.memoThing,
+                text = item.memoTitle,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .weight(1f)
