@@ -32,6 +32,7 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
     val txtField = remember { mutableStateOf("") }
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
+            modifier= Modifier.fillMaxHeight().padding(20.dp),
             shape = RoundedCornerShape(16.dp),
             color = Color.White
         ) {
@@ -39,9 +40,9 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                 contentAlignment = Alignment.Center
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
-
+                    //name
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().heightIn(30.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -56,10 +57,11 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                     }
 
                     Spacer(modifier = Modifier.height(15.dp))
+                    //title
                     TextField(
                         modifier = Modifier
-                            .height(50.dp)
                             .fillMaxWidth()
+                            .heightIn(25.dp)
                             .border(
                                 BorderStroke(
                                     width = 2.dp,
@@ -90,9 +92,10 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                         })
                     Spacer(modifier = Modifier.height(20.dp))
 
+                    //memo
                     TextField(
                         modifier = Modifier
-                            .height(500.dp)
+                            .fillMaxHeight(0.8f)
                             .fillMaxWidth()
                             .border(
                                 BorderStroke(
@@ -118,7 +121,7 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                     Box(modifier = Modifier.padding(40.dp, 0.dp, 40.dp, 0.dp)) {
                         Button(
                             onClick = {
-                                if(txtField.value.isBlank()){
+                                if(txtField.value.isBlank()||txtTitleField.value.isBlank()){
                                     txtFieldError.value = "Field can not be empty"
                                 }else{
                                     val memoTitle= txtTitleField.value

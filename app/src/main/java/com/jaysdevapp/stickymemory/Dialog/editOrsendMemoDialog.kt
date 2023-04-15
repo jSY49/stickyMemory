@@ -44,6 +44,7 @@ fun editOrsendDialog_memo(
     if (!showEditDialog) return
     Dialog(onDismissRequest = { setShowEditDialog(false) }) {
         Surface(
+            modifier= Modifier.fillMaxHeight().padding(20.dp),
             shape = RoundedCornerShape(16.dp),
             color = Color.White
         ) {
@@ -69,7 +70,7 @@ fun editOrsendDialog_memo(
                     Spacer(modifier = Modifier.height(15.dp))
                     TextField(
                         modifier = Modifier
-                            .height(50.dp)
+                            .heightIn(25.dp)
                             .fillMaxWidth()
                             .border(
                                 BorderStroke(
@@ -104,7 +105,7 @@ fun editOrsendDialog_memo(
 
                     TextField(
                         modifier = Modifier
-                            .height(500.dp)
+                            .fillMaxHeight(0.8f)
                             .fillMaxWidth()
                             .border(
                                 BorderStroke(

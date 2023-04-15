@@ -61,7 +61,7 @@ fun editOrsendDialog_dday(
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().heightIn(30.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -78,10 +78,10 @@ fun editOrsendDialog_dday(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentSize(Alignment.Center)
+//                            .wrapContentSize(Alignment.Center)
                     ) {
                         DatePicker(
-                            size = DpSize(200.dp, 100.dp),
+//                            size = DpSize(200.dp, 100.dp),
                             start =true,
                             startDay = day!!,
                             startMonth = month!!,
@@ -107,6 +107,7 @@ fun editOrsendDialog_dday(
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .heightIn(23.dp)
                             .border(
                                 BorderStroke(
                                     width = 2.dp,

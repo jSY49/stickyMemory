@@ -50,13 +50,14 @@ fun todo_ui(
             shape = RoundedCornerShape(16.dp),
             color = Color.White
         ) {
-            //Dialog name
+
             Box(
                 contentAlignment = Alignment.Center
             ) {
+                //Dialog name
                 Column(modifier = Modifier.padding(20.dp)) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().heightIn(30.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -74,10 +75,10 @@ fun todo_ui(
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentSize(Alignment.Center)
+//                            .wrapContentSize(Alignment.Center)
                     ) {
                         WheelDatePicker(
-                            size = DpSize(200.dp, 100.dp),
+//                            size = DpSize(200.dp, 100.dp),
                             textStyle = MaterialTheme.typography.h6,
                             textColor = Color.Black,
                             infiniteLoopEnabled = true,
@@ -98,6 +99,7 @@ fun todo_ui(
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .heightIn(23.dp)
                             .border(
                                 BorderStroke(
                                     width = 2.dp,
@@ -165,7 +167,7 @@ fun TodoPreview() {
     StickyMemoryTheme {
         var showTodoDialog by remember { mutableStateOf(true) }
         if (showTodoDialog) {
-            //todo_ui(setShowDialog = { showTodoDialog = it }, application = application)
+//            todo_ui(setShowDialog = { showTodoDialog = it }, application = app)
         }
 
     }

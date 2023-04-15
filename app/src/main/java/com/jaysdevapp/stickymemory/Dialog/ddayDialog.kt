@@ -49,7 +49,7 @@ fun dday_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
             ) {
                 Column(modifier = Modifier.padding(20.dp)) {
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().heightIn(30.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -65,10 +65,10 @@ fun dday_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .wrapContentSize(Alignment.Center)
+//                            .wrapContentSize(Alignment.Center)
                     ) {
                         WheelDatePicker(
-                            size = DpSize(200.dp, 100.dp),
+//                            size = DpSize(200.dp, 100.dp),
                             textStyle = MaterialTheme.typography.h6,
                             textColor = Color.Black,
                             infiniteLoopEnabled = true,
@@ -89,6 +89,7 @@ fun dday_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                     TextField(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .heightIn(23.dp)
                             .border(
                                 BorderStroke(
                                     width = 2.dp,
