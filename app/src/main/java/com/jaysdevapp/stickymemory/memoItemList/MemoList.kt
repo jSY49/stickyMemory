@@ -17,7 +17,8 @@ fun MemoList(
 ) {
     LazyColumn( modifier = Modifier
         .fillMaxWidth()
-        .padding(vertical = 8.dp)) {
+        .padding(0.dp,0.dp,0.dp,60.dp)  //광고짤리는거 해결안돼서 임시
+    ) {
         itemsIndexed(items = memos) { i, memo ->
             MemoItem(
                 item = memo,

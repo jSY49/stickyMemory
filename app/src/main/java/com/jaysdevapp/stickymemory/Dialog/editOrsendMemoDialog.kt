@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +42,11 @@ fun editOrsendDialog_memo(
     val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf(item.memoThing) }
     val txtTitleField = remember { mutableStateOf(item.memoTitle) }
+
+    val selectedValue = remember { mutableStateOf(item.colorNum) } // 선택된 라디오 버튼에 해당하는 내용
+    val isSelectedItem: (Int) -> Boolean = {selectedValue.value == it}
+    val onChangeState : (Int) -> Unit = { selectedValue.value = it}
+    val declarations = listOf("blue","yellow","purple")
 
     if (!showEditDialog) return
     Dialog(onDismissRequest = { setShowEditDialog(false) }) {
@@ -101,6 +108,35 @@ fun editOrsendDialog_memo(
                         onValueChange = {
                             txtTitleField.value = it.take(100)
                         })
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    Row() {
+                        declarations.forEachIndexed { index,item ->
+                            Column {
+                                Row(
+                                    modifier = Modifier
+                                        .selectable( // 선택 가능한 상태
+                                            // selectedValue가 해당 item 과 같을때 선택된 상태를 의미
+                                            selected = isSelectedItem(index),
+                                            // 해당 라인 클릭시 selectedValue 값을 변경해 상태 변경
+                                            onClick = { onChangeState(index) },
+                                            role = Role.RadioButton
+                                        )
+                                        .padding(end = 3.dp)
+                                ) {
+                                    RadioButton(
+                                        // 선택됨을 나타내는 인수와 같음
+                                        // selectedValue가 해당 item 과 같을때 선택됨 표시
+                                        selected = isSelectedItem(index),// 선택됨을 나타내는 인수와 같음
+                                        onClick = null,
+                                        modifier = Modifier.padding(end = 5.dp)
+                                    )
+                                    Text(text = item, fontSize = 10.sp)
+                                }
+                            }
+                        }
+                    }
                     Spacer(modifier = Modifier.height(20.dp))
 
                     TextField(
@@ -137,6 +173,7 @@ fun editOrsendDialog_memo(
                                 } else {
                                     item.memoTitle = txtTitleField.value
                                     item.memoThing = txtField.value
+                                    item.colorNum=selectedValue.value
                                     vm.updateMemo(item)
                                     setShowEditDialog(false)
                                 }

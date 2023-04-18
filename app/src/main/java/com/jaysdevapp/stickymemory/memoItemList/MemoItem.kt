@@ -1,5 +1,6 @@
 package com.jaysdevapp.stickymemory
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
@@ -8,14 +9,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.toColorInt
 import com.jaysdevapp.stickymemory.dataclasses.Memo
 
 
 @Composable
 fun MemoItem(item: Memo, onDelete: () -> Unit, onEdit: () -> Unit) {
+
+    val colorCode = listOf("#FF81D4FA","#FFFFF9C4","#FFD1C4E9")
+    val colorcode = colorCode.get(item.colorNum).toColorInt()
 
     Card(modifier = Modifier
         .padding(horizontal = 16.dp, vertical = 20.dp)
@@ -25,6 +31,7 @@ fun MemoItem(item: Memo, onDelete: () -> Unit, onEdit: () -> Unit) {
         }
     ) {
         Row(modifier = Modifier
+            .background(color = Color(colorcode))
             .padding(16.dp)) {
             Icon(
                 painter = painterResource(R.drawable.baseline_circle_24),

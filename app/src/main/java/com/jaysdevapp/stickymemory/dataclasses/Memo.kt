@@ -9,5 +9,6 @@ import java.io.Serializable
 data class Memo(
     @ColumnInfo(name="memoTitle") var memoTitle: String,
     @ColumnInfo(name="MemoThing") var memoThing: String,
+    @ColumnInfo(name="color") var colorNum: Int,
     @PrimaryKey(autoGenerate = true)var idx: Long = 0
 ): Serializable

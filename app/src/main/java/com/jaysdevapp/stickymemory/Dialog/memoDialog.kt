@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -30,19 +32,31 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
     val txtFieldError = remember { mutableStateOf("") }
     val txtTitleField = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf("") }
+
+    val selectedValue = remember { mutableStateOf(0) } // 선택된 라디오 버튼에 해당하는 내용
+    val isSelectedItem: (Int) -> Boolean = {selectedValue.value == it}
+    val onChangeState : (Int) -> Unit = { selectedValue.value = it}
+    val declarations = listOf("blue","yellow","purple")
+
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
-            modifier= Modifier.fillMaxHeight().padding(20.dp),
+            modifier= Modifier
+                .fillMaxHeight()
+                .padding(20.dp),
             shape = RoundedCornerShape(16.dp),
             color = Color.White
         ) {
             Box(
                 contentAlignment = Alignment.Center
             ) {
-                Column(modifier = Modifier.padding(20.dp)) {
+                Column(modifier = Modifier
+                    .padding(20.dp)
+                    ) {
                     //name
                     Row(
-                        modifier = Modifier.fillMaxWidth().heightIn(30.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(30.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -55,7 +69,6 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                             )
                         )
                     }
-
                     Spacer(modifier = Modifier.height(15.dp))
                     //title
                     TextField(
@@ -66,7 +79,8 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                                 BorderStroke(
                                     width = 2.dp,
                                     color = colorResource(
-                                        id = if (txtFieldError.value.isEmpty()) R.color.moreOrange else R.color.lightOrange)
+                                        id = if (txtFieldError.value.isEmpty()) R.color.moreOrange else R.color.lightOrange
+                                    )
                                 ),
                                 shape = RoundedCornerShape(20)
                             ),
@@ -92,6 +106,35 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                         })
                     Spacer(modifier = Modifier.height(20.dp))
 
+                    Row() {
+                        declarations.forEachIndexed { index,item ->
+                            Column {
+                                Row(
+                                    modifier = Modifier
+                                        .selectable( // 선택 가능한 상태
+                                            // selectedValue가 해당 item 과 같을때 선택된 상태를 의미
+                                            selected = isSelectedItem(index),
+                                            // 해당 라인 클릭시 selectedValue 값을 변경해 상태 변경
+                                            onClick = { onChangeState(index) },
+                                            role = Role.RadioButton
+                                        )
+                                        .padding(end = 3.dp)
+                                ) {
+                                    RadioButton(
+                                        // 선택됨을 나타내는 인수와 같음
+                                        // selectedValue가 해당 item 과 같을때 선택됨 표시
+                                        selected = isSelectedItem(index),// 선택됨을 나타내는 인수와 같음
+                                        onClick = null,
+                                        modifier = Modifier.padding(end = 5.dp)
+                                    )
+                                    Text(text = item, fontSize = 10.sp)
+                                }
+                            }
+                        }
+                    }
+
+
+                    Spacer(modifier = Modifier.height(15.dp))
                     //memo
                     TextField(
                         modifier = Modifier
@@ -101,7 +144,8 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                                 BorderStroke(
                                     width = 2.dp,
                                     color = colorResource(
-                                        id = if (txtFieldError.value.isEmpty()) R.color.moreOrange else R.color.lightOrange)
+                                        id = if (txtFieldError.value.isEmpty()) R.color.moreOrange else R.color.lightOrange
+                                    )
                                 ),
                                 shape = RoundedCornerShape(5)
                             ),
@@ -126,7 +170,8 @@ fun memo_ui(value: String, setShowDialog: (Boolean) -> Unit, application: Applic
                                 }else{
                                     val memoTitle= txtTitleField.value
                                     val mem=txtField.value
-                                    vm.addMemo(Memo(memoTitle,mem))
+                                    val color_code = selectedValue.value
+                                    vm.addMemo(Memo(memoTitle,mem,color_code))
                                     setShowDialog(false)
                                 }
                             },
