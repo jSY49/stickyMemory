@@ -162,7 +162,7 @@ fun editOrsendDialog_memo(
 
                     TextField(
                         modifier = Modifier
-                            .fillMaxHeight(0.8f)
+                            .fillMaxHeight(0.6f)
                             .fillMaxWidth()
                             .border(
                                 BorderStroke(
@@ -202,7 +202,6 @@ fun editOrsendDialog_memo(
                             shape = RoundedCornerShape(50.dp),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .height(50.dp)
                         ) {
                             Text(text = "Done")
                         }
