@@ -24,7 +24,7 @@ fun MemoItem(item: Memo, onDelete: () -> Unit, onEdit: () -> Unit) {
     val colorcode = colorCode.get(item.colorNum).toColorInt()
 
     Card(modifier = Modifier
-        .padding(horizontal = 16.dp, vertical = 20.dp)
+        .padding(horizontal = 16.dp, vertical = 10.dp)
         .fillMaxWidth()
         .pointerInput(Unit) {
             detectTapGestures(onLongPress = { onDelete() }, onTap = { onEdit() })

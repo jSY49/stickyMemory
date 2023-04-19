@@ -11,3 +11,11 @@ val Teal200 = Color(0xFF03DAC5)
 val lightOrange =Color(0xFFFFD0C1)
 val littleOrange =Color(0xFFFFAA8F)
 val moreOrange =Color(0xFFFD835C)
+
+var light_blue_50=Color(0xFFE1F5FE)
+var light_blue_200=Color(0xFF81D4FA)
+var light_blue_600=Color(0xFF039BE5)
+var light_blue_900=Color(0xFF01579B)
+
+var yellow_100=Color(0xFFFFF9C4)
+var purple_100=Color(0xFFD1C4E9)

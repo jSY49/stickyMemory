@@ -23,8 +23,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.zIndex
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.jaysdevapp.stickymemory.dataclasses.Memo
+import com.jaysdevapp.stickymemory.ui.theme.lightOrange
+import com.jaysdevapp.stickymemory.ui.theme.light_blue_200
+import com.jaysdevapp.stickymemory.ui.theme.purple_100
+import com.jaysdevapp.stickymemory.ui.theme.yellow_100
 import com.jaysdevapp.stickymemory.viewModel.MemoViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -43,15 +48,14 @@ fun editOrsendDialog_memo(
     val txtField = remember { mutableStateOf(item.memoThing) }
     val txtTitleField = remember { mutableStateOf(item.memoTitle) }
 
-    val selectedValue = remember { mutableStateOf(item.colorNum) } // 선택된 라디오 버튼에 해당하는 내용
-    val isSelectedItem: (Int) -> Boolean = {selectedValue.value == it}
-    val onChangeState : (Int) -> Unit = { selectedValue.value = it}
-    val declarations = listOf("blue","yellow","purple")
+    val color_chart = listOf(light_blue_200, yellow_100, purple_100)
+    var selectedIndex by remember { mutableStateOf(item.colorNum) }
+    val declarations = listOf("light blue","yellow","purple")
 
     if (!showEditDialog) return
     Dialog(onDismissRequest = { setShowEditDialog(false) }) {
         Surface(
-            modifier= Modifier.fillMaxHeight().padding(20.dp),
+            modifier= Modifier.padding(20.dp),
             shape = RoundedCornerShape(16.dp),
             color = Color.White
         ) {
@@ -61,7 +65,7 @@ fun editOrsendDialog_memo(
                 Column(modifier = Modifier.padding(20.dp)) {
 
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth().heightIn(30.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -111,32 +115,49 @@ fun editOrsendDialog_memo(
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    Row() {
-                        declarations.forEachIndexed { index,item ->
-                            Column {
-                                Row(
-                                    modifier = Modifier
-                                        .selectable( // 선택 가능한 상태
-                                            // selectedValue가 해당 item 과 같을때 선택된 상태를 의미
-                                            selected = isSelectedItem(index),
-                                            // 해당 라인 클릭시 selectedValue 값을 변경해 상태 변경
-                                            onClick = { onChangeState(index) },
-                                            role = Role.RadioButton
-                                        )
-                                        .padding(end = 3.dp)
-                                ) {
-                                    RadioButton(
-                                        // 선택됨을 나타내는 인수와 같음
-                                        // selectedValue가 해당 item 과 같을때 선택됨 표시
-                                        selected = isSelectedItem(index),// 선택됨을 나타내는 인수와 같음
-                                        onClick = null,
-                                        modifier = Modifier.padding(end = 5.dp)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        declarations.forEachIndexed { index, item ->
+                            //디스플레이 크기에 따라 버튼 뭉게짐
+                            //색상 문제
+                            OutlinedButton(
+                                onClick = { selectedIndex = index },
+                                modifier = when (index) {
+                                    0 ->
+                                        Modifier
+                                            .offset(0.dp, 0.dp)
+                                            .zIndex(if (selectedIndex == index) 1f else 0f)
+                                            .weight(1f)
+                                    else ->
+                                        Modifier
+                                            .offset((-1 * index).dp, 0.dp)
+                                            .zIndex(if (selectedIndex == index) 1f else 0f)
+                                            .weight(1f)
+                                },
+
+                                border = BorderStroke(
+                                    2.dp, lightOrange
+                                ),
+                                colors = if (selectedIndex == index) {
+                                    ButtonDefaults.outlinedButtonColors(
+                                        backgroundColor = color_chart.get(index),
+                                        contentColor = Color.Black
                                     )
-                                    Text(text = item, fontSize = 10.sp)
+                                } else {
+                                    ButtonDefaults.outlinedButtonColors(
+                                        backgroundColor = MaterialTheme.colors.background,
+                                        contentColor = Color.Black
+                                    )
                                 }
+                            ) {
+                                ResponsiveExampleText(text = item)
                             }
+
                         }
                     }
+
                     Spacer(modifier = Modifier.height(20.dp))
 
                     TextField(
@@ -173,7 +194,7 @@ fun editOrsendDialog_memo(
                                 } else {
                                     item.memoTitle = txtTitleField.value
                                     item.memoThing = txtField.value
-                                    item.colorNum=selectedValue.value
+                                    item.colorNum=selectedIndex
                                     vm.updateMemo(item)
                                     setShowEditDialog(false)
                                 }
@@ -190,5 +211,17 @@ fun editOrsendDialog_memo(
             }
         }
     }
+}
+
+@Composable
+private fun ResponsiveExampleText(
+    modifier: Modifier = Modifier,
+    text: String,
+) {
+    ResponsiveText(
+        modifier = modifier,
+        text = text,
+        textStyle = TextStyle(fontSize = 18.sp)
+    )
 }
 
