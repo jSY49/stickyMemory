@@ -47,7 +47,7 @@ fun Tabs(tabs: List<tabs_items>, pagerState: PagerState) {
     ) {
         tabs.forEachIndexed { index, tabsItems ->
             LeadingIconTab(
-                selectedContentColor = colorResource(id = R.color.moreOrange),
+                selectedContentColor = colorResource(id = R.color.orange),
                 unselectedContentColor = colorResource(id = R.color.littleOrange),
                 selected = pagerState.currentPage == index,
                 onClick = {
