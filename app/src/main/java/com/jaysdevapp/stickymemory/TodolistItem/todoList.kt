@@ -2,6 +2,7 @@ package com.jaysdevapp.stickymemory
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Text
@@ -23,7 +24,7 @@ fun TodoList(
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
+            .padding(0.dp,0.dp,0.dp,60.dp)  //광고짤리는거 해결안돼서 임시
     ) {
         itemsIndexed(items = todos) { i, todo ->
             if(i==0){
