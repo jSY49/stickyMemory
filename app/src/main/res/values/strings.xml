@@ -6,7 +6,7 @@
     <string name="dialog_confirm">확인</string>
     <string name="dialog_cancel">취소</string>
 
-    <string name="admob_sample_app_id">ca-app-pub-6700033491245688~3220524662</string>
+    <string name="admob_sample_app_id"></string>
 
     <string name="How">How to use?</string>
     <string name="How_info">모든 항목에 동일하게 적용됩니다.</string>
