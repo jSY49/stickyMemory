@@ -2,10 +2,10 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
     signingConfigs {
@@ -30,11 +30,14 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
-
+/*
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
         buildConfigField "String", "ADMOB_KEY", properties['admob_id']
         def admobAppId=properties.getProperty('admob_app_id')
-        manifestPlaceholders = ["ADMOB_APP_ID" : admobAppId]
+        manifestPlaceholders = [admobAppId : admobAppId]*/
+
     }
 
     buildTypes {
@@ -119,4 +122,5 @@ dependencies {
 
     //colorPicker
     implementation "com.github.skydoves:colorpicker-compose:1.0.2"
+
 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
+import com.jaysdevapp.stickymemory.BuildConfig.admob_id
 
 @Composable
 fun ad(modifier: Modifier = Modifier) {
@@ -37,7 +38,8 @@ fun ad(modifier: Modifier = Modifier) {
             factory = { context ->
                 AdView(context).apply {
                     setAdSize(AdSize.BANNER)
-                    adUnitId = BuildConfig.ADMOB_KEY
+//                    adUnitId = BuildConfig.ADMOB_KEY
+                    adUnitId = admob_id
                     loadAd(AdRequest.Builder().build())
                 }
             }
