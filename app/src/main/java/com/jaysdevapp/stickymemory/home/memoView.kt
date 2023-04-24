@@ -1,4 +1,4 @@
-package com.jaysdevapp.stickymemory
+package com.jaysdevapp.stickymemory.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.jaysdevapp.stickymemory.ui.theme.StickyMemoryTheme
 
 @Composable
-fun ddayview(){
+fun memoview(){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -22,8 +22,8 @@ fun ddayview(){
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewDdayview(){
+fun PreviewMemoview(){
     StickyMemoryTheme {
-        ddayview()
+        memoview()
     }
 }

@@ -1,4 +1,4 @@
-package com.jaysdevapp.stickymemory
+package com.jaysdevapp.stickymemory.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,20 +10,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.jaysdevapp.stickymemory.ui.theme.StickyMemoryTheme
 
 @Composable
-fun memoview(){
+fun todoview(){
     Column(
         modifier = Modifier
             .fillMaxSize()
             .wrapContentSize(Alignment.Center)
     ) {
-
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewMemoview(){
+fun PreviewTodoview() {
     StickyMemoryTheme {
-        memoview()
+        todoview()
     }
 }

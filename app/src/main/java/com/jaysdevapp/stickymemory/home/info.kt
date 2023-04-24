@@ -1,4 +1,4 @@
-package com.jaysdevapp.stickymemory
+package com.jaysdevapp.stickymemory.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.jaysdevapp.stickymemory.R
 
 @Composable
 fun info(navController: NavHostController) {

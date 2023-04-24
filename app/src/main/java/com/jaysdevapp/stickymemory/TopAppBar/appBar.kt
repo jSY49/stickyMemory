@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.jaysdevapp.stickymemory.home.info
 
 
 @RequiresApi(Build.VERSION_CODES.O)

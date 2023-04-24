@@ -112,7 +112,7 @@ fun DatePicker(
                     }
                 }
             )
-            com.commandiron.wheel_picker_compose.WheelTextPicker(
+            WheelTextPicker(
                 size = DpSize(size.width / 3, size.height),
                 texts = monthTexts,
                 textStyle = textStyle,
@@ -138,7 +138,7 @@ fun DatePicker(
                 }
             )
             Log.d("year: ",yearRange.toString())
-            com.commandiron.wheel_picker_compose.WheelTextPicker(
+            WheelTextPicker(
                 size = DpSize(size.width / 3, size.height),
                 texts = yearTexts,
                 textStyle = textStyle,

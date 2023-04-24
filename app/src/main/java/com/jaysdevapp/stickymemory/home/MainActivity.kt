@@ -1,4 +1,4 @@
-package com.jaysdevapp.stickymemory
+package com.jaysdevapp.stickymemory.home
 
 import android.annotation.SuppressLint
 import android.os.Build
@@ -6,24 +6,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.ads.MobileAds
+import com.jaysdevapp.stickymemory.Tabs_principle
+import com.jaysdevapp.stickymemory.ToolbarWithMenu
+import com.jaysdevapp.stickymemory.ad
 import com.jaysdevapp.stickymemory.ui.theme.StickyMemoryTheme
 
 

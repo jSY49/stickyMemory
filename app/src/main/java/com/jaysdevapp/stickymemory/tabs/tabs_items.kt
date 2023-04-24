@@ -1,9 +1,9 @@
 package com.jaysdevapp.stickymemory.tabs
 
 import androidx.compose.runtime.Composable
-import com.jaysdevapp.stickymemory.ddayview
-import com.jaysdevapp.stickymemory.memoview
-import com.jaysdevapp.stickymemory.todoview
+import com.jaysdevapp.stickymemory.home.ddayview
+import com.jaysdevapp.stickymemory.home.memoview
+import com.jaysdevapp.stickymemory.home.todoview
 
 typealias MyFunc= @Composable ()-> Unit
 sealed class tabs_items(
