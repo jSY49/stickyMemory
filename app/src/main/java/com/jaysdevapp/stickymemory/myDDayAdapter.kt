@@ -30,13 +30,6 @@ class myDDayAdapter(private var data: ArrayList<Dday>) :
         fun bind(datas: Dday) {
             binding.ddayNm.text=datas.ddayThing
             binding.ddayDate.text= calDate(datas.date)
-            /*itemView.setOnClickListener{
-                val intent = Intent(context, DetailReviewActivity::class.java)
-                intent.putExtra("movieId", currentMovie.Moviecode)
-                intent.run{
-                    context.startActivity(this)
-                }
-            }*/
 
         }
     }
