@@ -1,6 +1,7 @@
 package com.example.allmyreview
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -15,9 +16,9 @@ class myDDayAdapter(private var data: ArrayList<Dday>) :
     val TAG = "myDDayAdapter"
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateReview(newReview: List<Dday>) {
+    fun update(newDatas: List<Dday>) {
         data.clear()
-        data.addAll(newReview)
+        data.addAll(newDatas)
         notifyDataSetChanged()
     }
     // 생성된 뷰 홀더에 값 지정
@@ -29,14 +30,13 @@ class myDDayAdapter(private var data: ArrayList<Dday>) :
         fun bind(datas: Dday) {
             binding.ddayNm.text=datas.ddayThing
             binding.ddayDate.text= calDate(datas.date)
-            itemView.setOnClickListener{
-               /* val intent = Intent(context, DetailReviewActivity::class.java)
+            /*itemView.setOnClickListener{
+                val intent = Intent(context, DetailReviewActivity::class.java)
                 intent.putExtra("movieId", currentMovie.Moviecode)
                 intent.run{
                     context.startActivity(this)
-                }*/
-
-            }
+                }
+            }*/
 
         }
     }
@@ -52,10 +52,8 @@ class myDDayAdapter(private var data: ArrayList<Dday>) :
     // 뷰 홀더에 데이터 바인딩
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         //여기~!
-        val review = data
-        if (review != null) {
-            holder.bind(review.get(position))
-        }
+        val ddays = data
+        holder.bind(ddays.get(position))
     }
 
 

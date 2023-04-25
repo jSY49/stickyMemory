@@ -1,18 +1,20 @@
 package com.jaysdevapp.stickymemory
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allmyreview.myDDayAdapter
+import com.jaysdevapp.stickymemory.Repository.DdayRepository
+import com.jaysdevapp.stickymemory.database.AppDatabase_dday
 import com.jaysdevapp.stickymemory.databinding.NewAppWidgetConfigureBinding
 import com.jaysdevapp.stickymemory.viewModel.DdayViewModel
 
@@ -42,6 +44,7 @@ class NewAppWidgetConfigureActivity : Activity() {
     private lateinit var binding: NewAppWidgetConfigureBinding
     private var ddayAdapter = myDDayAdapter(arrayListOf())
     private lateinit var ddayViewModel: DdayViewModel
+    @SuppressLint("NotifyDataSetChanged")
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
 
@@ -62,15 +65,22 @@ class NewAppWidgetConfigureActivity : Activity() {
             adapter = ddayAdapter
         }
 
-/*        ddayViewModel = ViewModelProvider(this)[ddayViewModel::class.java]
-        ddayViewModel.readAllData.observe(lifecycleOwner, Observer {
-            it.let {
 
+        val repository: MutableLiveData<DdayRepository> = MutableLiveData()
+        val ddayDao = AppDatabase_dday.getDatabase(this)!!.ddayDao()
+        repository.value = DdayRepository(ddayDao)
+        var readAllData = repository.value!!.readAllData
+
+        readAllData.observe(ProcessLifecycleOwner.get(), Observer {
+            readAllData.value?.let {
+                Log.d("NewAppWidgetConfigureActivity", "onCreate - ${it}")
+                ddayAdapter.update(it)
+                ddayAdapter.notifyDataSetChanged()
+
+                Log.d("NewAppWidgetConfigureActivity","onCreate - ${ddayAdapter.itemCount}")
             }
 
-        })*/
-
-
+        })
 
 
         // Find the widget id from the intent.
@@ -92,6 +102,7 @@ class NewAppWidgetConfigureActivity : Activity() {
     }
 
 }
+
 
 private const val PREFS_NAME = "com.jaysdevapp.stickymemory.NewAppWidget"
 private const val PREF_PREFIX_KEY = "appwidget_"
