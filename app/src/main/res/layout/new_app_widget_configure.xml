@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:padding="16dp">
 
     <EditText
@@ -12,19 +11,13 @@
         android:layout_height="wrap_content"
         android:inputType="text" />
 
-    <ScrollView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dday_recycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/add_button"
-        android:layout_below="@+id/appwidget_text">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/dday_recycler"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:listitem="@layout/recycler_dday" />
-
-    </ScrollView>
+        android:layout_below="@+id/appwidget_text"
+        tools:listitem="@layout/recycler_dday" />
 
     <Button
         android:id="@+id/add_button"

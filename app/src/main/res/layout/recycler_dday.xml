@@ -12,14 +12,14 @@
     <RadioButton
         android:id="@+id/radioButton"
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginHorizontal="10dp"
-        android:layout_weight="0.3" />
+        android:layout_weight="1.5" />
 
     <TextView
         android:id="@+id/ddayNm"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginHorizontal="10dp"
         android:layout_weight="1"
@@ -27,7 +27,7 @@
 
     <TextView
         android:id="@+id/ddayDate"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginHorizontal="10dp"
         android:layout_weight="1"

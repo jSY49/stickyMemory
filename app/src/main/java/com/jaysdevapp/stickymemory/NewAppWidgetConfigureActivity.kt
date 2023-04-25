@@ -60,7 +60,7 @@ class NewAppWidgetConfigureActivity : Activity() {
 
         binding.ddayRecycler.apply {
             layoutManager = LinearLayoutManager(context).also {
-                it.orientation = LinearLayoutManager.HORIZONTAL
+                it.orientation = LinearLayoutManager.VERTICAL
             }
             adapter = ddayAdapter
         }
