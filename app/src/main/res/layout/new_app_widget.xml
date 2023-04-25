@@ -2,6 +2,7 @@
     style="@style/Widget.StickyMemory.AppWidget.Container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="0dp"
     android:theme="@style/Theme.StickyMemory.AppWidgetContainer">
 
     <TextView
@@ -16,4 +17,6 @@
         android:text="@string/appwidget_text"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
+
+
 </RelativeLayout>

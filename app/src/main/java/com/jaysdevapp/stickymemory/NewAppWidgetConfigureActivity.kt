@@ -7,7 +7,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.findViewTreeViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.allmyreview.myDDayAdapter
 import com.jaysdevapp.stickymemory.databinding.NewAppWidgetConfigureBinding
+import com.jaysdevapp.stickymemory.viewModel.DdayViewModel
 
 /**
  * The configuration screen for the [NewAppWidget] AppWidget.
@@ -15,12 +22,12 @@ import com.jaysdevapp.stickymemory.databinding.NewAppWidgetConfigureBinding
 class NewAppWidgetConfigureActivity : Activity() {
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
     private lateinit var appWidgetText: EditText
-    private var onClickListener = View.OnClickListener {
+    private var onClickListener = View.OnClickListener {    //add widget 버튼 리스너
         val context = this@NewAppWidgetConfigureActivity
 
         // When the button is clicked, store the string locally
         val widgetText = appWidgetText.text.toString()
-        saveTitlePref(context, appWidgetId, widgetText)
+        saveTitlePref(context, appWidgetId, widgetText) //입력된 문장 저장
 
         // It is the responsibility of the configuration activity to update the app widget
         val appWidgetManager = AppWidgetManager.getInstance(context)
@@ -33,7 +40,8 @@ class NewAppWidgetConfigureActivity : Activity() {
         finish()
     }
     private lateinit var binding: NewAppWidgetConfigureBinding
-
+    private var ddayAdapter = myDDayAdapter(arrayListOf())
+    private lateinit var ddayViewModel: DdayViewModel
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
 
@@ -46,6 +54,24 @@ class NewAppWidgetConfigureActivity : Activity() {
 
         appWidgetText = binding.appwidgetText as EditText
         binding.addButton.setOnClickListener(onClickListener)
+
+        binding.ddayRecycler.apply {
+            layoutManager = LinearLayoutManager(context).also {
+                it.orientation = LinearLayoutManager.HORIZONTAL
+            }
+            adapter = ddayAdapter
+        }
+
+/*        ddayViewModel = ViewModelProvider(this)[ddayViewModel::class.java]
+        ddayViewModel.readAllData.observe(lifecycleOwner, Observer {
+            it.let {
+
+            }
+
+        })*/
+
+
+
 
         // Find the widget id from the intent.
         val intent = intent

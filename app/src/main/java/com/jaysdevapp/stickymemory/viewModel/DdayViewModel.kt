@@ -19,6 +19,7 @@ class DdayViewModel(context: Context) : ViewModel() {
      val readAllData : LiveData<List<Dday>>
     private val repository : DdayRepository
 
+    
     init {
         val ddayDao = AppDatabase_dday.getDatabase(context)!!.ddayDao()
         repository = DdayRepository(ddayDao)

@@ -37,15 +37,16 @@ class NewAppWidget : AppWidgetProvider() {
     }
 }
 
-internal fun updateAppWidget(
+internal fun
+        updateAppWidget(   //여기서 ui업데이트
     context: Context,
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int
 ) {
-    val widgetText = loadTitlePref(context, appWidgetId)
+    val widgetText = loadTitlePref(context, appWidgetId)    //저장된 String 가져와
     // Construct the RemoteViews object
-    val views = RemoteViews(context.packageName, R.layout.new_app_widget)
-    views.setTextViewText(R.id.appwidget_text, widgetText)
+    val views = RemoteViews(context.packageName, R.layout.new_app_widget)   //Ui remote하고
+    views.setTextViewText(R.id.appwidget_text, widgetText)  //가져온 string ui setText
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)

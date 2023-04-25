@@ -12,10 +12,13 @@
     <string name="How_info2">Done 버튼을 눌러 내용을 저장합니다.</string>
     <string name="How_info3">가볍게 한번 누르면 수정이 가능합니다.</string>
     <string name="How_info4">길게 누르면 삭제가 가능합니다.</string>
+
     <string name="appwidget_text">EXAMPLE</string>
     <string name="configure">Configure</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">This is an app widget description</string>
+
+    <string name="widget_dday_name">D-day</string>
 
 
 </resources>
