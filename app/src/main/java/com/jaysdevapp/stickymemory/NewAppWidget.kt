@@ -44,9 +44,13 @@ internal fun
     appWidgetId: Int
 ) {
     val widgetText = loadTitlePref(context, appWidgetId)    //저장된 String 가져와
-    // Construct the RemoteViews object
+
     val views = RemoteViews(context.packageName, R.layout.new_app_widget)   //Ui remote하고
-    views.setTextViewText(R.id.appwidget_text, widgetText)  //가져온 string ui setText
+    // Construct the RemoteViews object
+    if(widgetText.size>0){
+        views.setTextViewText(R.id.appwidget_text_nm, widgetText.first())
+        views.setTextViewText(R.id.appwidget_text_date, calDate(widgetText.last()))
+    }
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)

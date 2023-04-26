@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.recyclerview.widget.RecyclerView
 import com.jaysdevapp.stickymemory.calDate
 import com.jaysdevapp.stickymemory.databinding.RecyclerDdayBinding
@@ -14,7 +15,8 @@ class myDDayAdapter(private var data: ArrayList<Dday>) :
     RecyclerView.Adapter<myDDayAdapter.MyViewHolder>() {
 
     val TAG = "myDDayAdapter"
-
+    private var checkedRadioButton: CompoundButton? = null
+    var checkId = -1
     @SuppressLint("NotifyDataSetChanged")
     fun update(newDatas: List<Dday>) {
         data.clear()
@@ -27,11 +29,20 @@ class myDDayAdapter(private var data: ArrayList<Dday>) :
         private val context = binding.root.context
 
         @SuppressLint("SetTextI18n")
-        fun bind(datas: Dday) {
+        fun bind(datas: Dday,position: Int) {
             binding.ddayNm.text=datas.ddayThing
             binding.ddayDate.text= calDate(datas.date)
 
+            checkedRadioButton = binding.radioButton
+
+            binding.radioButton.setOnCheckedChangeListener { buttonView, isChecked ->
+                checkedRadioButton?.apply { setChecked(!isChecked) }
+                checkedRadioButton = buttonView.apply { setChecked(isChecked) }
+                checkId = position
+            }
+
         }
+
     }
 
     // 어떤 xml 으로 뷰 홀더를 생성할지 지정
@@ -46,13 +57,22 @@ class myDDayAdapter(private var data: ArrayList<Dday>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         //여기~!
         val ddays = data
-        holder.bind(ddays.get(position))
+        holder.bind(ddays.get(position),position)
+
     }
 
 
     // 뷰 홀더의 개수 리턴
     override fun getItemCount(): Int {
         return data.size
+    }
+
+    fun getRadioId() : Int{
+        return checkId
+    }
+
+    fun getcheckData() : Dday{
+        return data.get(getRadioId())
     }
 
 

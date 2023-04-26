@@ -9,13 +9,16 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allmyreview.myDDayAdapter
+import com.jaysdevapp.stickymemory.Dao.ddayDao
 import com.jaysdevapp.stickymemory.Repository.DdayRepository
 import com.jaysdevapp.stickymemory.database.AppDatabase_dday
 import com.jaysdevapp.stickymemory.databinding.NewAppWidgetConfigureBinding
+import com.jaysdevapp.stickymemory.dataclasses.Dday
 import com.jaysdevapp.stickymemory.viewModel.DdayViewModel
 
 /**
@@ -23,14 +26,14 @@ import com.jaysdevapp.stickymemory.viewModel.DdayViewModel
  */
 class NewAppWidgetConfigureActivity : Activity() {
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
-    private lateinit var appWidgetText: EditText
     private var onClickListener = View.OnClickListener {    //add widget 버튼 리스너
         val context = this@NewAppWidgetConfigureActivity
+        if(ddayAdapter.checkId!=-1){
+            Log.d("NewAppWidgetConfigureActivity","check  = ${ddayAdapter.getcheckData()}")
+        }
 
         // When the button is clicked, store the string locally
-        val widgetText = appWidgetText.text.toString()
-        saveTitlePref(context, appWidgetId, widgetText) //입력된 문장 저장
-
+        saveTitlePref(context, appWidgetId, ddayAdapter.getcheckData()) //디데이 저장
         // It is the responsibility of the configuration activity to update the app widget
         val appWidgetManager = AppWidgetManager.getInstance(context)
         updateAppWidget(context, appWidgetManager, appWidgetId)
@@ -55,7 +58,6 @@ class NewAppWidgetConfigureActivity : Activity() {
         binding = NewAppWidgetConfigureBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        appWidgetText = binding.appwidgetText as EditText
         binding.addButton.setOnClickListener(onClickListener)
 
         binding.ddayRecycler.apply {
@@ -77,7 +79,6 @@ class NewAppWidgetConfigureActivity : Activity() {
                 ddayAdapter.update(it)
                 ddayAdapter.notifyDataSetChanged()
 
-                Log.d("NewAppWidgetConfigureActivity","onCreate - ${ddayAdapter.itemCount}")
             }
 
         })
@@ -98,7 +99,7 @@ class NewAppWidgetConfigureActivity : Activity() {
             return
         }
 
-        appWidgetText.setText(loadTitlePref(this@NewAppWidgetConfigureActivity, appWidgetId))
+//        appWidgetText.setText(loadTitlePref(this@NewAppWidgetConfigureActivity, appWidgetId))
     }
 
 }
@@ -108,18 +109,22 @@ private const val PREFS_NAME = "com.jaysdevapp.stickymemory.NewAppWidget"
 private const val PREF_PREFIX_KEY = "appwidget_"
 
 // Write the prefix to the SharedPreferences object for this widget
-internal fun saveTitlePref(context: Context, appWidgetId: Int, text: String) {
+internal fun saveTitlePref(context: Context, appWidgetId: Int, dday: Dday) {
     val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
-    prefs.putString(PREF_PREFIX_KEY + appWidgetId, text)
+//    prefs.putString(PREF_PREFIX_KEY + appWidgetId, text)
+
+    var setData = setOf(dday.ddayThing,dday.date)
+    prefs.putStringSet(PREF_PREFIX_KEY+appWidgetId, setData)
     prefs.apply()
 }
 
 // Read the prefix from the SharedPreferences object for this widget.
 // If there is no preference saved, get the default from a resource
-internal fun loadTitlePref(context: Context, appWidgetId: Int): String {
+internal fun loadTitlePref(context: Context, appWidgetId: Int):  Set<String?> {
     val prefs = context.getSharedPreferences(PREFS_NAME, 0)
-    val titleValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId, null)
-    return titleValue ?: context.getString(R.string.appwidget_text)
+    val setValue = prefs.getStringSet(PREF_PREFIX_KEY + appWidgetId, null)
+//    return titleValue ?: context.getString(R.string.appwidget_text)
+    return setValue ?: setOf("","")
 }
 
 internal fun deleteTitlePref(context: Context, appWidgetId: Int) {

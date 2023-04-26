@@ -5,11 +5,12 @@
     android:layout_height="wrap_content"
     android:padding="16dp">
 
-    <EditText
+    <TextView
+        android:layout_margin="10dp"
         android:id="@+id/appwidget_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text" />
+        android:text="@string/widget_dday_name" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dday_recycler"
@@ -25,6 +26,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="8dp"
+        android:background="@drawable/outline"
+        android:backgroundTint="@color/lightOrange"
+        android:layout_margin="10dp"
         android:text="@string/add_widget" />
 
 </RelativeLayout>
