@@ -11,11 +11,11 @@
 
     <RadioButton
         android:id="@+id/radioButton"
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginHorizontal="10dp"
-        android:layout_weight="1.5" />
+        android:layout_weight="1"
+        android:padding="5dp" />
 
     <TextView
         android:id="@+id/ddayNm"
@@ -32,8 +32,6 @@
         android:layout_marginHorizontal="10dp"
         android:layout_weight="1"
         android:gravity="center" />
-
-
 
 
 </LinearLayout>

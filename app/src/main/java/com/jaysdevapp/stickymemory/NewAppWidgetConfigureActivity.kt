@@ -5,16 +5,14 @@ import android.app.Activity
 import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.allmyreview.myDDayAdapter
-import com.jaysdevapp.stickymemory.Dao.ddayDao
 import com.jaysdevapp.stickymemory.Repository.DdayRepository
 import com.jaysdevapp.stickymemory.database.AppDatabase_dday
 import com.jaysdevapp.stickymemory.databinding.NewAppWidgetConfigureBinding
@@ -26,27 +24,32 @@ import com.jaysdevapp.stickymemory.viewModel.DdayViewModel
  */
 class NewAppWidgetConfigureActivity : Activity() {
     private var appWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID
+
+    @RequiresApi(Build.VERSION_CODES.S)
     private var onClickListener = View.OnClickListener {    //add widget 버튼 리스너
         val context = this@NewAppWidgetConfigureActivity
-        if(ddayAdapter.checkId!=-1){
-            Log.d("NewAppWidgetConfigureActivity","check  = ${ddayAdapter.getcheckData()}")
+        if (ddayAdapter.checkId != -1) {
+            Log.d("NewAppWidgetConfigureActivity", "check  = ${ddayAdapter.getcheckData()}")
+
+            // When the button is clicked, store the string locally
+            saveTitlePref(context, appWidgetId, ddayAdapter.getcheckData()) //디데이 저장
+            // It is the responsibility of the configuration activity to update the app widget
+            val appWidgetManager = AppWidgetManager.getInstance(context)
+            updateAppWidget(context, appWidgetManager, appWidgetId)
+
+            // Make sure we pass back the original appWidgetId
+            val resultValue = Intent()
+            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            setResult(RESULT_OK, resultValue)
+            finish()
         }
-
-        // When the button is clicked, store the string locally
-        saveTitlePref(context, appWidgetId, ddayAdapter.getcheckData()) //디데이 저장
-        // It is the responsibility of the configuration activity to update the app widget
-        val appWidgetManager = AppWidgetManager.getInstance(context)
-        updateAppWidget(context, appWidgetManager, appWidgetId)
-
-        // Make sure we pass back the original appWidgetId
-        val resultValue = Intent()
-        resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-        setResult(RESULT_OK, resultValue)
-        finish()
     }
+
     private lateinit var binding: NewAppWidgetConfigureBinding
     private var ddayAdapter = myDDayAdapter(arrayListOf())
     private lateinit var ddayViewModel: DdayViewModel
+
+    @RequiresApi(Build.VERSION_CODES.S)
     @SuppressLint("NotifyDataSetChanged")
     public override fun onCreate(icicle: Bundle?) {
         super.onCreate(icicle)
@@ -58,7 +61,9 @@ class NewAppWidgetConfigureActivity : Activity() {
         binding = NewAppWidgetConfigureBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         binding.addButton.setOnClickListener(onClickListener)
+
 
         binding.ddayRecycler.apply {
             layoutManager = LinearLayoutManager(context).also {
@@ -113,19 +118,25 @@ internal fun saveTitlePref(context: Context, appWidgetId: Int, dday: Dday) {
     val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
 //    prefs.putString(PREF_PREFIX_KEY + appWidgetId, text)
 
-    var setData = setOf(dday.ddayThing,dday.date)
-    prefs.putStringSet(PREF_PREFIX_KEY+appWidgetId, setData)
+    prefs.putString(PREF_PREFIX_KEY + appWidgetId + "date", dday.date)
+    prefs.putString(PREF_PREFIX_KEY + appWidgetId + "name", dday.ddayThing)
     prefs.apply()
 }
 
 // Read the prefix from the SharedPreferences object for this widget.
 // If there is no preference saved, get the default from a resource
-internal fun loadTitlePref(context: Context, appWidgetId: Int):  Set<String?> {
+internal fun loadTitlePref_date(context: Context, appWidgetId: Int): String {
     val prefs = context.getSharedPreferences(PREFS_NAME, 0)
-    val setValue = prefs.getStringSet(PREF_PREFIX_KEY + appWidgetId, null)
-//    return titleValue ?: context.getString(R.string.appwidget_text)
-    return setValue ?: setOf("","")
+    val dateValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId + "date", null)
+    return dateValue ?: ""
 }
+
+internal fun loadTitlePref_name(context: Context, appWidgetId: Int): String {
+    val prefs = context.getSharedPreferences(PREFS_NAME, 0)
+    val nameValue = prefs.getString(PREF_PREFIX_KEY + appWidgetId + "name", null)
+    return nameValue ?: "none"
+}
+
 
 internal fun deleteTitlePref(context: Context, appWidgetId: Int) {
     val prefs = context.getSharedPreferences(PREFS_NAME, 0).edit()
